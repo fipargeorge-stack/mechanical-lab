@@ -3,76 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مختبر الابتكارات الميكانيكية</title>
+    <title>مختبر التصاميم الهندسية</title>
     <style>
-        /* تصميم يشبه ورق البلوبرنت */
+        :root {
+            --primary-blue: #003366;
+            --accent-blue: #00509d;
+            --light-blue: #e6f0ff;
+            --white: #ffffff;
+        }
+
         body {
-            background-color: #003366;
-            background-image: 
-                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            text-align: center;
         }
 
         header {
-            text-align: center;
-            border-bottom: 2px solid #ffffff;
-            padding-bottom: 20px;
-            margin-bottom: 40px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 2rem 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-
-        h1 { margin: 0; letter-spacing: 2px; }
 
         .container {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        .project-card {
-            border: 1px solid #ffffff;
-            padding: 15px;
-            background: rgba(0, 51, 102, 0.8);
+        .main-img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 3px solid var(--accent-blue);
+        }
+
+        .section {
+            margin: 40px 0;
+            padding: 20px;
+            border-bottom: 2px inset var(--light-blue);
+        }
+
+        .work-img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
             transition: transform 0.3s;
         }
 
-        .project-card:hover {
-            transform: scale(1.03);
-            background: rgba(0, 80, 150, 0.9);
+        .work-img:hover {
+            transform: scale(1.05);
         }
 
-        .project-image {
-            width: 100%;
-            height: 200px;
-            background: #004080;
-            border: 1px dashed #ffffff;
+        /* تنسيق صندوق الذكاء الاصطناعي */
+        #ai-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 250px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #ffcc00;
-            color: #000;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            gap: 10px;
+            z-index: 1000;
         }
 
         footer {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 14px;
-            opacity: 0.7;
+            background: #f1f1f1;
+            padding: 15px;
+            font-size: 0.9rem;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -80,34 +93,30 @@
 
 <header>
     <h1>مختبر التصاميم الهندسية</h1>
-    <p>أرشيف النماذج الميكانيكية والابتكارات</p>
+    <p>دقة في التصميم.. إبداع في التنفيذ</p>
 </header>
 
 <div class="container">
-    <div class="project-card">
-        <div class="status">تم التصميم</div>
-        <h3>نظام النصل المستتر (v2.0)</h3>
-        <div class="project-image">صورة البلوبرنت هنا</div>
-        <p>نصل ميكانيكي يعمل بزمبرك تلسكوبي مزدوج وقضيب توجيه مركزي للثبات.</p>
+    <div class="section">
+        <img src="1773296456884.png" alt="مقدمة التصميم" class="main-img">
+        <h2>أهلاً بك في مختبرنا</h2>
+        <p>نحن نقدم حلولاً هندسية مبتكرة باستخدام أحدث التقنيات.</p>
     </div>
 
-    <div class="project-card">
-        <div class="status">قيد التطوير</div>
-        <h3>قنبلة الدخان (Smoke)</h3>
-        <div class="project-image">صورة المكونات هنا</div>
-        <p>خليط من البارود، الكبريت، والبخور لإنتاج دخان كثيف ومنتظم.</p>
-    </div>
-
-    <div class="project-card">
-        <div class="status">فكرة مقترحة</div>
-        <h3>الدرع القابل للطي</h3>
-        <div class="project-image">قيد الرسم</div>
-        <p>درع ساعد يعتمد على مفاصل ميكانيكية للفتح السريع بضغطة زر.</p>
+    <div class="section">
+        <h3>أحدث المشاريع: الخرطوشة الدخانية</h3>
+        <img src="1773130599107.png" alt="الخرطوشة الدخانية" class="work-img">
+        <p>تصميم هندسي متقدم يحاكي الأنظمة الصناعية الحديثة.</p>
     </div>
 </div>
 
+<div id="ai-chat" onclick="alert('مساعد الذكاء الاصطناعي: أهلاً بك! كيف يمكنني مساعدتك في مشروعك الهندسي اليوم؟')">
+    <span>🤖</span>
+    <span>مساعد المهندس الذكي (AI)</span>
+</div>
+
 <footer>
-    <p>© 2026 مختبر الابتكارات | صُمم لمستقبل الهندسة الميكانيكية</p>
+    &copy; 2026 جميع الحقوق محفوظة لـ **جورج تروسيا**
 </footer>
 
 </body>
