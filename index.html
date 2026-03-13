@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEORGE TROUSIA | AI Lab</title>
+    <title>GEORG TRUSSIA | AI Lab</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; --dark-bg: #020617; }
@@ -41,7 +41,7 @@
         <i class="fas fa-cog gear" style="bottom:10%; right:10%; font-size: 150px; animation-direction: reverse;"></i>
     </div>
     <header>
-        <h1>GEORG TRUSSIA</h1>
+        <h1>GEORGE TROUSIA</h1>
         <p style="color: var(--neon-cyan); letter-spacing: 5px;">AI MECHANICAL LAB</p>
     </header>
     <div class="container">
@@ -59,23 +59,23 @@
     <div id="ai-widget">
         <div id="ai-chat">
             <div class="ai-header"><span>🤖 المساعد الذكي</span> <span onclick="core.toggleAI()" style="cursor:pointer">×</span></div>
-            <div class="ai-messages" id="ai-box"><div class="msg bot">أهلاً مهندس جورج! كيف أساعدك في تطوير تروسك اليوم؟</div></div>
+            <div class="ai-messages" id="ai-box"><div class="msg bot">أهلاً مهندس جورج! كيف أساعدك اليوم؟</div></div>
             <div class="ai-input"><input type="text" id="ai-in" placeholder="اسألني عن مشروعك..." onkeypress="if(event.key==='Enter') core.aiChat()"></div>
         </div>
         <button id="ai-trigger" onclick="core.toggleAI()">🤖</button>
     </div>
     <script>
         const core = {
-            db: JSON.parse(localStorage.getItem('georg_v5_db')) || [],
+            db: JSON.parse(localStorage.getItem('georg_vfinal_db')) || [],
             add: function() {
                 const t = document.getElementById('t').value, d = document.getElementById('d').value, f = document.getElementById('f').files[0];
-                if(!t || !f) return alert("البيانات ناقصة يا هندسة!");
+                if(!t || !f) return alert("البيانات ناقصة!");
                 const r = new FileReader();
                 r.onloadend = () => {
                     this.db.push({ id: Date.now(), title: t, image: r.result, desc: d, gallery: [] });
-                    localStorage.setItem('georg_v5_db', JSON.stringify(this.db));
+                    localStorage.setItem('georg_vfinal_db', JSON.stringify(this.db));
                     this.render(); this.clear();
-                    this.botMsg(`تم تشفير "${t}"! هل تريد نصيحة بخصوص نظام الزنبرك؟`);
+                    this.botMsg(`تم تشفير "${t}"! اضغط على المشروع لإضافة المزيد من الصور.`);
                 };
                 r.readAsDataURL(f);
             },
@@ -90,15 +90,12 @@
                         </div>
                     </div>`).join('');
             },
-            del: function(id) { this.db = this.db.filter(x => x.id !== id); localStorage.setItem('georg_v5_db', JSON.stringify(this.db)); this.render(); },
+            del: function(id) { this.db = this.db.filter(x => x.id !== id); localStorage.setItem('georg_vfinal_db', JSON.stringify(this.db)); this.render(); },
             toggleAI: function() { const c = document.getElementById('ai-chat'); c.style.display = c.style.display === 'flex' ? 'none' : 'flex'; },
             aiChat: function() {
                 const i = document.getElementById('ai-in'); if(!i.value) return;
                 this.userMsg(i.value); const q = i.value.toLowerCase(); i.value = '';
-                setTimeout(() => {
-                    if(q.includes('سكين')) this.botMsg("أنصحك باستخدام نظام Sliding Gear للسكين المختفي.");
-                    else this.botMsg("فهمت قصدك، جاري مراجعة المخططات الهندسية لهذا الطلب.");
-                }, 1000);
+                setTimeout(() => { this.botMsg("جاري تحليل الطلب هندسياً... أنا معك يا جورج."); }, 800);
             },
             userMsg: function(m) { document.getElementById('ai-box').innerHTML += `<div class="msg user">${m}</div>`; this.scroll(); },
             botMsg: function(m) { document.getElementById('ai-box').innerHTML += `<div class="msg bot">${m}</div>`; this.scroll(); },
