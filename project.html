@@ -3,73 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المخطط الهندسي التفصيلي</title>
+    <title>المخطط التقني | GEORG TRUSSIA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; --dark-bg: #020617; }
-        body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: rgba(15,23,42,0.9); border: 2px solid var(--neon-purple); border-radius: 25px; padding: 30px; }
-        .back-link { color: var(--neon-cyan); text-decoration: none; display: block; margin-bottom: 20px; font-weight: bold; }
-        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 20px; cursor: zoom-in; }
-        textarea { width: 100%; background: #050a14; border: 1px solid #1e293b; color: var(--neon-cyan); padding: 20px; border-radius: 15px; font-size: 1.1rem; }
-        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid var(--neon-purple); cursor: zoom-in; }
-        .btn-update { background: var(--neon-cyan); color: #000; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        * { box-sizing: border-box; }
+        body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
         
-        /* نظام تكبير الصور (Lightbox) */
-        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out; }
-        #lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--neon-cyan); border-radius: 10px; box-shadow: 0 0 30px var(--neon-cyan); }
+        /* التروس الخلفية لتوحيد الثيم */
+        .bg-elements { position: fixed; top:0; left:0; width:100%; height:100%; z-index: -1; opacity: 0.1; pointer-events: none; }
+        .gear { position: absolute; color: var(--neon-cyan); animation: spin 20s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .container { max-width: 800px; margin: 0 auto; background: rgba(15, 23, 42, 0.9); border: 2px solid var(--neon-purple); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); }
+        .back-btn { color: var(--neon-cyan); text-decoration: none; display: inline-block; margin-bottom: 20px; font-weight: bold; border: 1px solid var(--neon-cyan); padding: 8px 15px; border-radius: 10px; }
+        
+        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 25px; cursor: zoom-in; }
+        
+        h3 { color: var(--neon-cyan); border-right: 4px solid var(--neon-purple); padding-right: 15px; margin-top: 30px; }
+        
+        /* الخانة الكبيرة التي طلبتها */
+        textarea { width: 100%; background: #050a14; border: 1px solid var(--neon-cyan); color: #fff; padding: 20px; border-radius: 15px; font-size: 1.1rem; min-height: 250px; line-height: 1.6; outline: none; }
+        textarea:focus { box-shadow: 0 0 15px var(--neon-cyan); }
+
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; cursor: zoom-in; transition: 0.3s; }
+        .gallery img:hover { border-color: var(--neon-cyan); transform: scale(1.05); }
+        
+        .upload-zone { background: rgba(0, 242, 255, 0.05); border: 2px dashed var(--neon-cyan); padding: 20px; border-radius: 20px; text-align: center; margin-top: 30px; }
+        .custom-upload-btn { background: var(--neon-purple); color: #fff; padding: 12px 25px; border-radius: 10px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; }
+        .custom-upload-btn input { display: none; }
+
+        .btn-save { background: var(--neon-cyan); color: #000; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 1.2rem; margin-top: 25px; cursor: pointer; transition: 0.3s; }
+        .btn-save:hover { background: #fff; box-shadow: 0 0 20px var(--neon-cyan); }
+
+        /* نافذة التكبير */
+        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; cursor: zoom-out; }
+        #lightbox img { max-width: 95%; max-height: 95%; border: 2px solid var(--neon-cyan); border-radius: 10px; }
     </style>
 </head>
 <body>
     <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src=""></div>
+    
+    <div class="bg-elements">
+        <i class="fas fa-cog gear" style="top:10%; right:5%; font-size: 80px;"></i>
+        <i class="fas fa-cog gear" style="bottom:5%; left:5%; font-size: 120px; animation-direction: reverse;"></i>
+    </div>
 
     <div class="container">
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للمختبر</a>
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للمختبر الرئيسي</a>
         <div id="content"></div>
-        <div style="margin-top:20px; border: 1px dashed var(--neon-cyan); padding:15px; border-radius:15px; text-align:center">
-            <p>إضافة صور أخرى للمعرض:</p>
-            <input type="file" id="moreF" accept="image/*" onchange="proj.upload()">
+        
+        <div class="upload-zone">
+            <p style="color: var(--neon-cyan);"><i class="fas fa-images"></i> إضافة صور تفصيلية للمعرض:</p>
+            <label class="custom-upload-btn">
+                <i class="fas fa-plus"></i> اختر صور من الجهاز
+                <input type="file" accept="image/*" onchange="proj.upload(this)">
+            </label>
         </div>
-        <button class="btn-update" onclick="proj.save()">تحديث التقرير الهندسي</button>
+        
+        <button class="btn-save" onclick="proj.save()">حفظ كافة التعديلات التقنية</button>
     </div>
 
     <script>
-        const id = new URLSearchParams(window.location.search).get('id');
-        let db = JSON.parse(localStorage.getItem('georg_vfinal_db')) || [];
-        let p = db.find(x => x.id == id);
+        const DB_NAME = 'georg_final_v1';
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id');
+        
+        let db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
+        let p = db.find(x => x.id === projectId);
 
         const proj = {
             init: function() {
-                if(!p) return document.body.innerHTML="<h1>المشروع غير موجود</h1>";
+                if(!p) {
+                    document.body.innerHTML = "<div class='container'><h1>المشروع غير موجود في الذاكرة!</h1><a href='index.html' class='back-btn'>رجوع</a></div>";
+                    return;
+                }
                 this.render();
             },
             render: function() {
                 document.getElementById('content').innerHTML = `
-                    <h1 style="color:var(--neon-cyan)">${p.title}</h1>
+                    <h1 style="color:var(--neon-cyan); text-align:center; font-size:2rem; margin-bottom:25px;">${p.title}</h1>
                     <img src="${p.image}" class="main-img" onclick="proj.zoom(this.src)">
-                    <h3>المواصفات الفنية:</h3>
-                    <textarea id="ed">${p.desc}</textarea>
-                    <h3>معرض الصور الإضافية (انقر للتكبير):</h3>
-                    <div class="gallery">${p.gallery.map(img => `<img src="${img}" onclick="proj.zoom('${img}')">`).join('')}</div>
+                    <h3><i class="fas fa-file-alt"></i> التقرير الهندسي والمواصفات:</h3>
+                    <textarea id="ed" placeholder="اكتب هنا كافة تفاصيل الاختراع الميكانيكية...">${p.desc || ''}</textarea>
+                    <h3><i class="fas fa-th"></i> صور الأجزاء الداخلية (Gallery):</h3>
+                    <div class="gallery">${(p.gallery || []).map(img => `<img src="${img}" onclick="proj.zoom('${img}')">`).join('')}</div>
                 `;
             },
             zoom: function(src) {
                 document.getElementById('lbImg').src = src;
                 document.getElementById('lightbox').style.display = 'flex';
             },
-            upload: function() {
-                const f = document.getElementById('moreF').files[0];
+            upload: function(input) {
+                if (!input.files || !input.files[0]) return;
                 const r = new FileReader();
-                r.onloadend = () => { p.gallery.push(r.result); this.render(); };
-                r.readAsDataURL(f);
+                r.onloadend = () => {
+                    if(!p.gallery) p.gallery = [];
+                    p.gallery.push(r.result);
+                    this.render();
+                };
+                r.readAsDataURL(input.files[0]);
             },
             save: function() {
                 p.desc = document.getElementById('ed').value;
-                localStorage.setItem('georg_vfinal_db', JSON.stringify(db));
-                alert("تم تحديث البيانات بنجاح!");
+                localStorage.setItem(DB_NAME, JSON.stringify(db));
+                alert("تم تحديث المخطط التقني بنجاح!");
             }
         };
+
         window.onload = () => proj.init();
     </script>
 </body>
