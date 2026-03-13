@@ -14,6 +14,7 @@
         .admin-box { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px); border: 1px solid var(--neon-cyan); padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
         .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         input, textarea { background: #0a192f; border: 1px solid #1e293b; padding: 15px; border-radius: 10px; color: white; width: 100%; box-sizing: border-box; }
+        input[type="file"] { padding: 10px; background: #112240; cursor: pointer; }
         input:focus { border-color: var(--neon-cyan); outline: none; }
         .btn-add { grid-column: span 2; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple)); color: white; border: none; padding: 18px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-add:hover { transform: translateY(-3px); box-shadow: 0 0 20px var(--neon-purple); }
@@ -31,17 +32,17 @@
 
 <header>
     <h1>GEORG TRUSSIA</h1>
-    <p style="color: var(--neon-cyan)">MECHANICAL LAB SYSTEM v3.5</p>
+    <p style="color: var(--neon-cyan)">MECHANICAL LAB SYSTEM v4.0</p>
 </header>
 
 <div class="container">
     <div class="admin-box">
-        <h2 style="color: var(--neon-cyan); margin-top:0"><i class="fas fa-cog fa-spin"></i> مركز التحكم بالمشاريع</h2>
+        <h2 style="color: var(--neon-cyan); margin-top:0"><i class="fas fa-camera"></i> إضافة مشروع من الاستوديو</h2>
         <div class="input-grid">
             <input type="text" id="t" placeholder="اسم المشروع">
-            <input type="text" id="i" placeholder="رابط الصورة أو اسم الملف">
+            <input type="file" id="fileInput" accept="image/*">
             <textarea id="d" style="grid-column: span 2" rows="3" placeholder="المواصفات الهندسية..."></textarea>
-            <button class="btn-add" onclick="core.add()">إضافة المشروع للمختبر</button>
+            <button class="btn-add" onclick="core.add()">نشر المشروع بالصورة المختارة</button>
         </div>
     </div>
     <div id="display" class="grid"></div>
@@ -51,49 +52,58 @@
 
 <script>
     const core = {
-        db: JSON.parse(localStorage.getItem('georg_final')) || [],
+        db: JSON.parse(localStorage.getItem('georg_gallery_db')) || [],
+        
         add: function() {
-            const valT = document.getElementById('t').value,
-                  valI = document.getElementById('i').value,
-                  valD = document.getElementById('d').value;
-            if(!valT || !valI) return alert("الرجاء إدخال البيانات!");
+            const valT = document.getElementById('t').value;
+            const valD = document.getElementById('d').value;
+            const fileFile = document.getElementById('fileInput').files[0];
 
-            const obj = {
-                id: Date.now(),
-                title: valT,
-                // التعديل الذكي: يدعم الروابط المباشرة والملفات المحلية
-                image: valI.startsWith('http') ? valI : `./${valI}`,
-                desc: valD
+            if(!valT || !fileFile) return alert("الرجاء إدخال الاسم واختيار صورة من الجاليري!");
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const obj = {
+                    id: Date.now(),
+                    title: valT,
+                    image: reader.result, // تحويل الصورة لكود نصي للحفظ
+                    desc: valD
+                };
+                this.db.push(obj);
+                localStorage.setItem('georg_gallery_db', JSON.stringify(this.db));
+                this.render();
+                this.clear();
             };
-            this.db.push(obj);
-            localStorage.setItem('georg_final', JSON.stringify(this.db));
-            this.render();
-            this.clear();
+            reader.readAsDataURL(fileFile);
         },
+
         render: function() {
             document.getElementById('display').innerHTML = this.db.map(p => `
                 <div class="card">
-                    <img src="${p.image}" onerror="this.src='https://via.placeholder.com/400x200/0f172a/00f2ff?text=Check+Image+Link'">
+                    <img src="${p.image}">
                     <div class="card-body">
                         <h3>${p.title}</h3>
                         <p>${p.desc}</p>
-                        <button onclick="core.del(${p.id})" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px 10px; border-radius:5px; cursor:pointer">حذف</button>
+                        <button onclick="core.del(${p.id})" style="background:none; border:1px solid #ff4d4d; color:#ff4d4d; padding:5px 10px; border-radius:5px; cursor:pointer">حذف المشروع</button>
                     </div>
                 </div>
             `).join('');
         },
+
         del: function(id) {
             this.db = this.db.filter(x => x.id !== id);
-            localStorage.setItem('georg_final', JSON.stringify(this.db));
+            localStorage.setItem('georg_gallery_db', JSON.stringify(this.db));
             this.render();
         },
+
         clear: function() {
             document.getElementById('t').value = '';
-            document.getElementById('i').value = '';
+            document.getElementById('fileInput').value = '';
             document.getElementById('d').value = '';
         },
+
         ai: function() {
-            alert("مرحباً جورج! النظام يعمل بكفاءة. إذا وضعت رابطاً من ImgBB سأعرضه فوراً.");
+            alert("مهندس جورج! يمكنك الآن الضغط على 'Choose File' لتفتح الاستوديو مباشرة. الصور تُحفظ في ذاكرة متصفحك.");
         }
     };
     window.onload = () => core.render();
