@@ -3,49 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المخطط الهندسي</title>
+    <title>المخطط الهندسي التفصيلي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; --dark-bg: #020617; }
         body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; }
         .container { max-width: 900px; margin: 0 auto; background: rgba(15,23,42,0.9); border: 2px solid var(--neon-purple); border-radius: 25px; padding: 30px; }
         .back-link { color: var(--neon-cyan); text-decoration: none; display: block; margin-bottom: 20px; font-weight: bold; }
-        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 20px; }
+        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 20px; cursor: zoom-in; }
         textarea { width: 100%; background: #050a14; border: 1px solid #1e293b; color: var(--neon-cyan); padding: 20px; border-radius: 15px; font-size: 1.1rem; }
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid var(--neon-purple); }
+        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid var(--neon-purple); cursor: zoom-in; }
         .btn-update { background: var(--neon-cyan); color: #000; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; margin-top: 20px; cursor: pointer; }
-        .upload-more { margin-top: 20px; border: 1px dashed var(--neon-cyan); padding: 15px; border-radius: 15px; text-align: center; }
+        
+        /* نظام تكبير الصور (Lightbox) */
+        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--neon-cyan); border-radius: 10px; box-shadow: 0 0 30px var(--neon-cyan); }
     </style>
 </head>
 <body>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src=""></div>
+
     <div class="container">
         <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للمختبر</a>
         <div id="content"></div>
-        <div class="upload-more">
-            <p>إضافة صور أخرى للمعرض (Gallery):</p>
+        <div style="margin-top:20px; border: 1px dashed var(--neon-cyan); padding:15px; border-radius:15px; text-align:center">
+            <p>إضافة صور أخرى للمعرض:</p>
             <input type="file" id="moreF" accept="image/*" onchange="proj.upload()">
         </div>
         <button class="btn-update" onclick="proj.save()">تحديث التقرير الهندسي</button>
     </div>
+
     <script>
         const id = new URLSearchParams(window.location.search).get('id');
-        let db = JSON.parse(localStorage.getItem('georg_v5_db')) || [];
+        let db = JSON.parse(localStorage.getItem('georg_vfinal_db')) || [];
         let p = db.find(x => x.id == id);
+
         const proj = {
             init: function() {
-                if(!p) return document.body.innerHTML="<h1>غير موجود</h1>";
+                if(!p) return document.body.innerHTML="<h1>المشروع غير موجود</h1>";
                 this.render();
             },
             render: function() {
                 document.getElementById('content').innerHTML = `
                     <h1 style="color:var(--neon-cyan)">${p.title}</h1>
-                    <img src="${p.image}" class="main-img">
+                    <img src="${p.image}" class="main-img" onclick="proj.zoom(this.src)">
                     <h3>المواصفات الفنية:</h3>
                     <textarea id="ed">${p.desc}</textarea>
-                    <h3>معرض الصور الإضافية:</h3>
-                    <div class="gallery">${p.gallery.map(img => `<img src="${img}">`).join('')}</div>
+                    <h3>معرض الصور الإضافية (انقر للتكبير):</h3>
+                    <div class="gallery">${p.gallery.map(img => `<img src="${img}" onclick="proj.zoom('${img}')">`).join('')}</div>
                 `;
+            },
+            zoom: function(src) {
+                document.getElementById('lbImg').src = src;
+                document.getElementById('lightbox').style.display = 'flex';
             },
             upload: function() {
                 const f = document.getElementById('moreF').files[0];
@@ -55,8 +66,8 @@
             },
             save: function() {
                 p.desc = document.getElementById('ed').value;
-                localStorage.setItem('georg_v5_db', JSON.stringify(db));
-                alert("تم التحديث بنجاح!");
+                localStorage.setItem('georg_vfinal_db', JSON.stringify(db));
+                alert("تم تحديث البيانات بنجاح!");
             }
         };
         window.onload = () => proj.init();
