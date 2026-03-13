@@ -3,123 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المخطط التقني | GEORG TRUSSIA</title>
+    <title>المخطط التقني | GEORGE TROUSIA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --neon-cyan: #00f2ff; --neon-purple: #bc13fe; --dark-bg: #020617; }
         * { box-sizing: border-box; }
-        body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; overflow-x: hidden; }
-        
-        /* التروس الخلفية */
+        body { background: var(--dark-bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
         .bg-elements { position: fixed; top:0; left:0; width:100%; height:100%; z-index: -1; opacity: 0.1; pointer-events: none; }
         .gear { position: absolute; color: var(--neon-cyan); animation: spin 20s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .container { max-width: 800px; margin: 0 auto; background: rgba(15, 23, 42, 0.9); border: 2px solid var(--neon-purple); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); position: relative; z-index: 10; }
-        .back-btn { color: var(--neon-cyan); text-decoration: none; display: inline-block; margin-bottom: 20px; font-weight: bold; border: 1px solid var(--neon-cyan); padding: 8px 15px; border-radius: 10px; transition: 0.3s; }
-        .back-btn:hover { background: var(--neon-cyan); color: #000; }
-        
-        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 25px; cursor: zoom-in; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
-        
-        h1 { text-align: center; color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); margin-bottom: 25px; }
+        .container { max-width: 800px; margin: 0 auto; background: rgba(15, 23, 42, 0.9); border: 2px solid var(--neon-purple); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); }
+        .back-btn { color: var(--neon-cyan); text-decoration: none; display: inline-block; margin-bottom: 20px; border: 1px solid var(--neon-cyan); padding: 8px 15px; border-radius: 10px; font-weight: bold; }
+        .main-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-cyan); margin-bottom: 25px; cursor: zoom-in; }
         h3 { color: var(--neon-cyan); border-right: 4px solid var(--neon-purple); padding-right: 15px; margin-top: 30px; }
-        
-        /* الخانة الكبيرة المخصصة للتقارير */
         textarea { width: 100%; background: #050a14; border: 1px solid var(--neon-cyan); color: #fff; padding: 20px; border-radius: 15px; font-size: 1.1rem; min-height: 300px; line-height: 1.6; outline: none; resize: vertical; }
-        textarea:focus { border-color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
-
         .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
-        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; cursor: zoom-in; transition: 0.3s; }
-        .gallery img:hover { border-color: var(--neon-cyan); transform: scale(1.05); }
-        
+        .gallery img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; border: 1px solid #334155; cursor: zoom-in; }
         .upload-zone { background: rgba(0, 242, 255, 0.05); border: 2px dashed var(--neon-cyan); padding: 20px; border-radius: 20px; text-align: center; margin-top: 30px; }
-        .custom-upload-btn { background: var(--neon-purple); color: #fff; padding: 12px 25px; border-radius: 10px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; transition: 0.3s; }
-        .custom-upload-btn:hover { transform: scale(1.05); }
-        .custom-upload-btn input { display: none; }
-
-        .btn-save { background: var(--neon-cyan); color: #000; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 1.2rem; margin-top: 25px; cursor: pointer; transition: 0.3s; }
-        .btn-save:hover { background: #fff; box-shadow: 0 0 25px var(--neon-cyan); }
-
-        /* نافذة التكبير (Lightbox) */
+        .custom-upload-btn { background: var(--neon-purple); color: #fff; padding: 12px 25px; border-radius: 10px; cursor: pointer; display: inline-block; font-weight: bold; }
+        .btn-save { background: var(--neon-cyan); color: #000; border: none; padding: 20px; border-radius: 15px; width: 100%; font-weight: bold; font-size: 1.2rem; margin-top: 25px; cursor: pointer; }
         #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; cursor: zoom-out; }
         #lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--neon-cyan); border-radius: 10px; }
     </style>
 </head>
 <body>
     <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src=""></div>
-    
-    <div class="bg-elements">
-        <i class="fas fa-cog gear" style="top:10%; right:5%; font-size: 100px;"></i>
-        <i class="fas fa-cog gear" style="bottom:10%; left:5%; font-size: 150px; animation-direction: reverse;"></i>
-    </div>
-
+    <div class="bg-elements"><i class="fas fa-cog gear" style="top:10%; right:5%; font-size: 100px;"></i></div>
     <div class="container">
-        <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للمختبر الرئيسي</a>
-        
-        <div id="projectContent">
-            </div>
-        
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> العودة للمختبر</a>
+        <div id="projectArea"></div>
         <div class="upload-zone">
-            <p style="color: var(--neon-cyan);"><i class="fas fa-microchip"></i> إضافة صور تفصيلية للمخطط:</p>
             <label class="custom-upload-btn">
-                <i class="fas fa-plus"></i> اختر صور إضافية
-                <input type="file" accept="image/*" onchange="projectCtrl.upload(this)">
+                <i class="fas fa-plus"></i> إضافة صور تفصيلية للمخطط
+                <input type="file" accept="image/*" style="display:none" onchange="proj.upload(this)">
             </label>
         </div>
-        
-        <button class="btn-save" onclick="projectCtrl.save()">حفظ كافة التغييرات الهندسية</button>
+        <button class="btn-save" onclick="proj.save()">حفظ كافة التغييرات</button>
     </div>
-
     <script>
-        // توحيد اسم الذاكرة مع ملف index.html
         const DB_NAME = 'georg_final_v1';
-        const urlParams = new URLSearchParams(window.location.search);
-        const projectId = urlParams.get('id');
-        
+        const pid = new URLSearchParams(window.location.search).get('id');
         let db = JSON.parse(localStorage.getItem(DB_NAME)) || [];
-        let pData = db.find(x => x.id === projectId);
+        let p = db.find(x => x.id === pid);
 
-        const projectCtrl = {
+        const proj = {
             init: function() {
-                if(!pData) {
-                    document.getElementById('projectContent').innerHTML = "<h1 style='color:red; text-align:center;'>المشروع غير موجود في الأرشيف!</h1>";
-                    return;
-                }
+                if(!p) { document.getElementById('projectArea').innerHTML = "<h1>غير موجود!</h1>"; return; }
                 this.render();
             },
             render: function() {
-                document.getElementById('projectContent').innerHTML = `
-                    <h1>${pData.title}</h1>
-                    <img src="${pData.image}" class="main-img" onclick="projectCtrl.zoom(this.src)">
-                    <h3><i class="fas fa-scroll"></i> التقرير الهندسي والمواصفات:</h3>
-                    <textarea id="descText" placeholder="اكتب مواصفات الابتكار هنا...">${pData.desc || ''}</textarea>
-                    <h3><i class="fas fa-images"></i> المعرض الإضافي (Gallery):</h3>
-                    <div class="gallery">${(pData.gallery || []).map(img => `<img src="${img}" onclick="projectCtrl.zoom('${img}')">`).join('')}</div>
+                document.getElementById('projectArea').innerHTML = `
+                    <h1 style="color:var(--neon-cyan); text-align:center;">${p.title}</h1>
+                    <img src="${p.image}" class="main-img" onclick="proj.zoom(this.src)">
+                    <h3><i class="fas fa-scroll"></i> التقرير الهندسي:</h3>
+                    <textarea id="descEdit">${p.desc || ''}</textarea>
+                    <h3><i class="fas fa-images"></i> المعرض الإضافي:</h3>
+                    <div class="gallery">${(p.gallery || []).map(img => `<img src="${img}" onclick="proj.zoom('${img}')">`).join('')}</div>
                 `;
             },
-            zoom: function(src) {
-                document.getElementById('lbImg').src = src;
-                document.getElementById('lightbox').style.display = 'flex';
-            },
+            zoom: function(src) { document.getElementById('lbImg').src = src; document.getElementById('lightbox').style.display = 'flex'; },
             upload: function(input) {
-                if (input.files && input.files[0]) {
+                if (input.files[0]) {
                     const r = new FileReader();
-                    r.onload = (e) => {
-                        if(!pData.gallery) pData.gallery = [];
-                        pData.gallery.push(e.target.result);
-                        this.render();
-                    };
+                    r.onload = (e) => { if(!p.gallery) p.gallery = []; p.gallery.push(e.target.result); this.render(); };
                     r.readAsDataURL(input.files[0]);
                 }
             },
             save: function() {
-                pData.desc = document.getElementById('descText').value;
+                p.desc = document.getElementById('descEdit').value;
                 localStorage.setItem(DB_NAME, JSON.stringify(db));
-                alert("تم تحديث المخطط التقني بنجاح!");
+                alert("تم الحفظ بنجاح!");
             }
         };
-
-        window.onload = () => projectCtrl.init();
+        window.onload = () => proj.init();
     </script>
 </body>
 </html>
+
